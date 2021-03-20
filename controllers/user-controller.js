@@ -1,6 +1,14 @@
 const { User } = require('../models');
+const { param } = require('../routes/api/user-routes');
 
 const userController = {
+    // create user
+    createUser({ body }, res) {
+        User.create(body)
+            .then(dbUserData => res.json(dbUserData))
+            .catch(err => res.json(err));
+    },
+
     // get all users
     getAllUsers(reg, res) {
         User.find({})
@@ -12,12 +20,44 @@ const userController = {
             })
     },
 
-    // create user
-    createUser({ body }, res) {
-        User.create(body)
+    // get single user by id and populate thought and friend data
+    getUserById({ params }, res ) {
+        User.findOne({ _id: params.id })
+            .populate({
+                path: 'thought',
+                select: '-__v'
+            })
+            .populate({
+                path: 'friend',
+                select: '-__v'
+            })
+            .select('-__v')
+            .then(dbUserData => res.json(dbUserData))
+            .catch(err => {
+                console.log(err);
+                res.sendStatus(400);
+            })
+    },
+
+    // update user by id
+    updateUser({ params, body }, res ) {
+        User.findOneAndUpdate({ _id: params.id }, body, {new: true, runValidators: true})
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(400).json({ message: 'No user found with this id!' });
+                    return;
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => res.json(err));
+    },
+
+    // delete user by id
+    deleteUser({ params }, res ) {
+        User.findOneAndDelete({ _id: params.id })
             .then(dbUserData => res.json(dbUserData))
             .catch(err => res.json(err));
     }
-}
+};
 
 module.exports = userController;
