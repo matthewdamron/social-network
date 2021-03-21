@@ -37,8 +37,10 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 ```
 
 ## Screenschots
-<!-- [](./images/home.png) -->
-
+Add User and Friend
+[![Watch the video](./images/social-network.png)](https://drive.google.com/file/d/1smlw0QgJOEJyiv-LQLLHKKh9WdCFQhXv/view?usp=sharing)
+Add Thoughts and Reactions
+[![Watch the video](./images/social-network-thoughts.png)](https://drive.google.com/file/d/17e15Cdi3bIjZ7TFvj7FFn1NpzsMcjHsT/view?usp=sharing)
 ## Installation
 Install npm with npm install or npm i to install node.js<br />
 Start the server with npm start
